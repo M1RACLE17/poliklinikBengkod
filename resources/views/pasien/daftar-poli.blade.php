@@ -14,7 +14,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('pasien.daftar-poli') }}" class="nav-link ">
+                <a href="{{ route('pasien.daftar-poli') }}" class="nav-link">
                     <p>
                         Poli
                         <span class="badge badge-warning right">pasien</span>
@@ -22,18 +22,14 @@
                 </a>
             </li>
             <li class="nav-item">
-                <form action={{route('auth.logout.post')}} method="post">
+                <form action="{{ route('auth.logout.post') }}" method="post">
                     @csrf
-                 <i class="nav-icon far fa-calendar-alt"></i>
-                 <button type="submit" class="nav-link ">
-                 <p>
-                   Logout
-                 </p>
-                </button>
+                    <i class="nav-icon far fa-calendar-alt"></i>
+                    <button type="submit" class="nav-link">
+                        <p>Logout</p>
+                    </button>
                 </form>
-                  
-                 
-               </li>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->
@@ -68,40 +64,38 @@
                                 <div class="tab-pane fade show active" id="daftar" role="tabpanel" aria-labelledby="daftar-tab">
                                     <form action="{{ route('pasien.daftar-poli.store') }}" method="POST">
                                         @csrf
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <label for="no_rm">Nomor Rekam Medis</label>
-                                                <input type="text" class="form-control" id="no_rm" name="no_rm" value="{{ auth()->user()->no_rm ?? '' }}" readonly>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="id_poli">Pilih Poli</label>
-                                                <select class="custom-select rounded-0" id="id_poli" name="id_poli" required onchange="fetchSchedules()">
-                                                    <option value="" disabled selected>Open this select menu</option>
-                                                    @foreach ($polis as $poli)
-                                                        <option value="{{ $poli->id }}" {{ old('id_poli') == $poli->id ? 'selected' : '' }}>
-                                                            {{ $poli->nama_poli }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="id_jadwal">Pilih Jadwal</label>
-                                                <select class="custom-select rounded-0" id="id_jadwal" name="id_jadwal" required>
-                                                    <option value="" disabled selected>Open this select menu</option>
-                                                    @foreach ($jadwals as $jadwal)
-                                                        <option value="{{ $jadwal->id }}" {{ old('id_jadwal') == $jadwal->id ? 'selected' : '' }}>
-                                                            {{ $jadwal->hari }} - {{ $jadwal->jam_mulai }} s/d {{ $jadwal->jam_selesai }} (Dr. {{ $jadwal->dokter->nama ?? 'N/A' }})
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="keluhan">Keluhan</label>
-                                                <textarea class="form-control" id="keluhan" name="keluhan" rows="3" required>{{ old('keluhan') }}</textarea>
-                                                @error('keluhan')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="no_rm">Nomor Rekam Medis</label>
+                                            <input type="text" class="form-control" id="no_rm" name="no_rm" value="{{ auth()->user()->no_rm ?? '' }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_poli">Pilih Poli</label>
+                                            <select class="custom-select rounded-0" id="id_poli" name="id_poli" required onchange="fetchSchedules()">
+                                                <option value="" disabled selected>Open this select menu</option>
+                                                @foreach ($polis as $poli)
+                                                    <option value="{{ $poli->id }}" {{ old('id_poli') == $poli->id ? 'selected' : '' }}>
+                                                        {{ $poli->nama_poli }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_jadwal">Pilih Jadwal</label>
+                                            <select class="custom-select rounded-0" id="id_jadwal" name="id_jadwal" required>
+                                                <option value="" disabled selected>Open this select menu</option>
+                                                @foreach ($jadwals as $jadwal)
+                                                    <option value="{{ $jadwal->id }}" {{ old('id_jadwal') == $jadwal->id ? 'selected' : '' }}>
+                                                        {{ $jadwal->hari }} - {{ $jadwal->jam_mulai }} s/d {{ $jadwal->jam_selesai }} (Dr. {{ $jadwal->dokter->nama ?? 'N/A' }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="keluhan">Keluhan</label>
+                                            <textarea class="form-control" id="keluhan" name="keluhan" rows="3" required>{{ old('keluhan') }}</textarea>
+                                            @error('keluhan')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary">Daftar</button>
@@ -127,6 +121,7 @@
                                                         <th>Selesai</th>
                                                         <th>Antrian</th>
                                                         <th>Status</th>
+                                                        <th>Biaya Periksa</th>
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -141,6 +136,7 @@
                                                             <td>{{ $riwayat->jadwalPeriksa->jam_selesai ?? 'N/A' }}</td>
                                                             <td>{{ $riwayat->no_antrian ?? 'N/A' }}</td>
                                                             <td>{{ $riwayat->periksas->isNotEmpty() && $riwayat->periksas->first()->catatan ? 'Sudah diperiksa' : 'Belum diperiksa' }}</td>
+                                                            <td>{{ $riwayat->periksas->isNotEmpty() ? 'Rp' . number_format($riwayat->periksas->first()->biaya_periksa ?? 0, 0, ',', '.') : 'Belum diperiksa' }}</td>
                                                             <td>
                                                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailModal{{ $riwayat->id }}">
                                                                     Detail
@@ -152,7 +148,7 @@
                                                                             <div class="modal-header" style="background-color: #007bff; color: white;">
                                                                                 <h5 class="modal-title" id="detailModalLabel{{ $riwayat->id }}">Detail Poli</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                    <span aria-hidden="true">×</span>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="modal-body">
@@ -180,6 +176,10 @@
                                                                                     <label>Nomor Antrian</label>
                                                                                     <p>{{ $riwayat->no_antrian ?? 'N/A' }}</p>
                                                                                 </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Biaya Periksa</label>
+                                                                                    <p>{{ $riwayat->periksas->isNotEmpty() ? 'Rp' . number_format($riwayat->periksas->first()->biaya_periksa ?? 0, 0, ',', '.') : 'Belum diperiksa' }}</p>
+                                                                                </div>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -188,11 +188,10 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td colspan="9" class="text-center">Tidak ada data</td>
+                                                            <td colspan="10" class="text-center">Tidak ada data</td>
                                                         </tr>
                                                     @endforelse
                                                 </tbody>
