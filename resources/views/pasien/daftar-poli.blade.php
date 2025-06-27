@@ -178,7 +178,7 @@
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label>Biaya Periksa</label>
-                                                                                    <p>{{ $riwayat->periksas->isNotEmpty() ? 'Rp' . number_format($riwayat->periksas->first()->biaya_periksa ?? 0, 0, ',', '.') : 'Belum diperiksa' }}</p>
+                                                                                <p>{{ $riwayat->periksas->isNotEmpty() ? 'Rp' . number_format($riwayat->periksas->first()->biaya_periksa ?? 0, 0, ',', '.') : 'Belum diperiksa' }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="modal-footer">
